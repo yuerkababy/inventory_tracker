@@ -1,0 +1,26 @@
+// Import the functions you need from the SDKs you need
+import { initializeApp } from "firebase/app";
+import { getAnalytics } from "firebase/analytics";
+import { getFirestore } from "firebase/firestore";
+
+// TODO: Add SDKs for Firebase products that you want to use
+// https://firebase.google.com/docs/web/setup#available-libraries
+
+// Your web app's Firebase configuration
+// For Firebase JS SDK v7.20.0 and later, measurementId is optional
+const firebaseConfig = {
+    apiKey: "AIzaSyBmcUa7lPxwXHhdzkRh2kZ4xQ2DeMVZOrI",
+    authDomain: "inventory-tracker-f00f4.firebaseapp.com",
+    projectId: "inventory-tracker-f00f4",
+    storageBucket: "inventory-tracker-f00f4.appspot.com",
+    messagingSenderId: "604837368889",
+    appId: "1:604837368889:web:e851f1fac93e9d71b5e9e8",
+    measurementId: "G-P25FTCFJJT"
+};
+
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+const analytics = getAnalytics(app);
+const firestore = getFirestore(app);
+
+export { firestore };
