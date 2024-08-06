@@ -67,12 +67,32 @@ export default function Home() {
         <Box
             width="100vw"
             height="100vh"
+            bgcolor='#FFFDD0'
             display="flex"
             flexDirection="column"
             justifyContent="center"
             alignItems="center"
             gap={2}
         >
+            <Box
+                sx={{
+                    width: 800,
+                    height: 500,
+                    border: "4px solid #333",
+                    fontSize: '2.5rem',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    borderRadius: 1,
+                    bgcolor: '#2B3C4D',
+                    color: '#B9D0F0',
+                    '&:hover': {
+                        transitionDelay: '0.3s',
+                        boxShadow: '0 0 20px #2F2C34, 0 0 50px #2F2C34, 0 0 90px #2F2C34',
+                    },
+                }}
+            > Welcome to the Inventory Tracker! </Box>
+
             <Modal open={open} onClose={handleClose}>
                 <Box
                     position="absolute"
@@ -174,6 +194,6 @@ export default function Home() {
                     ))}
                 </Stack>
             </Box>
-        </Box>
+        </Box >
     )
 }
