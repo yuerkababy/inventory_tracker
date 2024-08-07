@@ -2,7 +2,7 @@
 import Image from "next/image";
 import { useState, useEffect } from 'react'
 import { firestore } from '@/firebase'
-import { Box, Modal, TextField, Stack, Typography, Button } from "@mui/material";
+import { Box, Modal, TextField, Stack, Typography, Button, TableHead, Table, TableRow, TableCell, TableContainer, Paper, TableBody } from "@mui/material";
 import { collection, deleteDoc, doc, getDoc, getDocs, query, setDoc } from "firebase/firestore";
 
 
@@ -63,36 +63,29 @@ export default function Home() {
         name.toLowerCase().includes(searchQuery.toLowerCase())
     )
 
+    function createData(name, calories, fat, carbs, protein) {
+        return { name, calories, fat, carbs, protein };
+    }
+
+    const rows = [
+        createData('Frozen yoghurt', 159, 6.0, 24, 4.0),
+        createData('Ice cream sandwich', 237, 9.0, 37, 4.3),
+        createData('Eclair', 262, 16.0, 24, 6.0),
+        createData('Cupcake', 305, 3.7, 67, 4.3),
+        createData('Gingerbread', 356, 16.0, 49, 3.9),
+    ];
+
     return (
         <Box
             width="100vw"
             height="100vh"
-            bgcolor='#FFFDD0'
+            bgcolor='#FFFFFF'
             display="flex"
             flexDirection="column"
             justifyContent="center"
             alignItems="center"
             gap={2}
         >
-            <Box
-                sx={{
-                    width: 800,
-                    height: 500,
-                    border: "4px solid #333",
-                    fontSize: '2.5rem',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    borderRadius: 1,
-                    bgcolor: '#2B3C4D',
-                    color: '#B9D0F0',
-                    '&:hover': {
-                        transitionDelay: '0.3s',
-                        boxShadow: '0 0 20px #2F2C34, 0 0 50px #2F2C34, 0 0 90px #2F2C34',
-                    },
-                }}
-            > Welcome to the Inventory Tracker! </Box>
-
             <Modal open={open} onClose={handleClose}>
                 <Box
                     position="absolute"
@@ -149,51 +142,50 @@ export default function Home() {
                 }}
 
             />
-            <Box border="3px solid #333">
-                <Box
-                    width="800px"
-                    height="100px"
-                    bgcolor="#ADD8E6"
-                    display="flex"
-                    alignItems="center"
-                    justifyContent="center"
-                >
-                    <Typography variant="h2" colors="#333">
-                        Inventory Items
-                    </Typography>
-                </Box>
-                <Stack width="800px" height="300px" spacing={2} overflow="auto">
-                    {filteredInventory.map(({ name, quantity }) => (
-                        <Box
-                            key={name}
-                            width="100%"
-                            minHeight="150px"
-                            display="flex"
-                            alignItems="center"
-                            justifyContent="space-between"
-                            bgcolor="#f0f0f0"
-                            padding={5}
-                        >
-                            <Typography variant="h3" color="#333" textAlign="center">
-                                {name.charAt(0).toUpperCase() + name.slice(1)}
-                            </Typography>
-                            <Typography variant="h3" color="#333" textAlign="center">
-                                {quantity}
-                            </Typography>
-                            <Stack direction="row" spacing={2}>
-                                <Button variant="contained" onClick={() => {
-                                    addItem(name)
-                                }}> Add
-                                </Button>
-                                <Button variant="contained" onClick={() => {
-                                    removeItem(name)
-                                }}> Remove
-                                </Button>
-                            </Stack>
-                        </Box>
-                    ))}
-                </Stack>
-            </Box>
+            <TableContainer component={Paper} sx={{
+                width: '100%',
+                height: '100%',
+                border: "3px solid #210F31",
+                marginTop: 2,
+            }}>
+                <Table sx={{
+                    width: '100%',
+                    fontSize: '14px',
+                    backgroundColor: '#FFFFFF',
+                    color: '#210F31',
+                }} aria-label="iventory table" stickyHeader>
+                    <TableHead>
+                        <TableRow>
+                            <TableCell sx={{ fontWeight: 'bold', fontSize: '16px' }} >Item</TableCell>
+                            <TableCell sx={{ fontWeight: 'bold', fontSize: '16px' }} align="right">Quantity</TableCell>
+                            <TableCell sx={{ fontWeight: 'bold', fontSize: '16px' }} align="right">Add</TableCell>
+                            <TableCell sx={{ fontWeight: 'bold', fontSize: '16px' }} align="right">Remove</TableCell>
+                        </TableRow>
+                    </TableHead>
+                    <TableBody>
+                        {filteredInventory.map(({ name, quantity }) => (
+                            <TableRow key={name}>
+                                <TableCell component='th' scope="row">
+                                    {name.charAt(0).toUpperCase() + name.slice(1)}
+                                </TableCell>
+                                <TableCell align="right">
+                                    {quantity}
+                                </TableCell>
+                                <TableCell align="right">
+                                    <Button bgcolor="#7E337F" variant="contained" onClick={() => { addItem(name) }}>
+                                        Add
+                                    </Button>
+                                </TableCell>
+                                <TableCell align="right">
+                                    <Button bgcolor="#7E337F" variant="contained" onClick={() => { removeItem(name) }}>
+                                        Remove
+                                    </Button>
+                                </TableCell>
+                            </TableRow>
+                        ))}
+                    </TableBody>
+                </Table>
+            </TableContainer>
         </Box >
     )
 }
